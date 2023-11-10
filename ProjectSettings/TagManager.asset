@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - trafficBox
+  - questPoint
+  - macetag
+  - maceTrafficTag
+  - underpassTrigger
+  - overpassCollider
+  - underpassCollider
+  - overpassTrigger
+  - car
+  - cyclingTag
+  - footTag
+  - roadTag
+  - coinTag
+  - TrafficLight
+  - resetCarPos
+  - Stop
+  - trafficTag
+  - zebraTag
+  - bridgeTag
+  - popupTag
+  - gemTag
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - lanes
+  - Water
+  - UI
+  - MapCam
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Ground
+    uniqueID: 4043115859
+    locked: 0
+  - name: bridgeTrigger
+    uniqueID: 3567135567
+    locked: 0
+  - name: onBridge
+    uniqueID: 1596730663
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Buildings
+    uniqueID: 179333149
+    locked: 0
+  - name: items
+    uniqueID: 1595762213
+    locked: 0
+  - name: player
+    uniqueID: 215030507
+    locked: 0
+  - name: UI
+    uniqueID: 3648538819
+    locked: 0
