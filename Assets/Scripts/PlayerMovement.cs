@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(SystemInfo.operatingSystem);
         Time.timeScale = 1;
         if (PlayerPrefs.HasKey("InitialYPosition"))
         {
@@ -80,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
     }*/
     void Update()
     {
-        if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Other)
+        if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Other || SystemInfo.operatingSystem.Contains("iPad"))
         {
             speed = 3;
             DPad.SetActive(true);
@@ -254,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator LoadAsynchronously()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync("newscene");
+        AsyncOperation operation = SceneManager.LoadSceneAsync("MainScene");
         while (!operation.isDone)
         {
             yield return null;

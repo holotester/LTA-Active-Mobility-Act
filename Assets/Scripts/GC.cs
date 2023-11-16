@@ -48,14 +48,11 @@ public class GC : MonoBehaviour
     private int isGreen;
     private int isGreen2;
     private int isGreen3;
-    private int addPoints = 0;
-
-
-    // private int additionalPoints = 0;
     private PlayerMovement pm;
     private HealthManager hm;
     private Animator animator;
-    // public gcs_menu gcmenu;
+    private ButtonScript bs;
+    public gcs_menu gcmenu;
     void Awake()
     {
         // Store currentscore in prefs
@@ -63,6 +60,7 @@ public class GC : MonoBehaviour
         pm = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
         hm = FindObjectOfType<HealthManager>();
+        bs = GetComponent<ButtonScript>();
     }
 
     void Start()
@@ -75,25 +73,10 @@ public class GC : MonoBehaviour
         isGreen2 = 1;
         isGreen3 = 1;
         points = PlayerPrefs.GetInt("Points", 0);
-        UpdatePointsDisplay();
     }
 
     void Update()
     {
-
-            // if (check1.activeSelf)
-            // {
-            //     Debug.Log("check 1 is active");
-            // }
-            //  if (check2.activeSelf)
-            // {
-            //     Debug.Log("check 2 is active");
-            // }
-            //  if (check3.activeSelf)
-            // {
-            //     Debug.Log("check 3 is active");
-            // }
-
         if (isPhone == true && animator.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
         {
             if (!hasHealthDecremented)
@@ -116,7 +99,6 @@ public class GC : MonoBehaviour
         {
             hasHealthDecremented = false; // Reset the flag when the conditions are not met
         }
-
         StartCoroutine(RestartCurrentlevel());
     }
 
@@ -134,7 +116,7 @@ public class GC : MonoBehaviour
         {
             // summaryText.text = "Be on the correct lane to avoid conflicts!";
             HealthManager.health--;
-            // gcmenu.PlayHurt();
+            gcmenu.PlayHurt();
             sf.Flash();
             PlayerPrefs.SetString("distance", pm.distanceLeft.ToString());
             if (other.CompareTag("maceTrafficTag"))
@@ -144,22 +126,15 @@ public class GC : MonoBehaviour
                 _timeColliding = 0f;
                 // learningPoints2.color = new Color(255, 0, 0, 255);
                 imageToChangeColor2.color = newColor;
-
-                // if (HealthManager.health <= 0)
-                // {
-                //     summaryText.text = "Stop and look out for traffic before crossing";
-                // }
             }
-            StartCoroutine(RestartCurrentlevel());
         }
         else if (other.CompareTag("coinTag"))
         {
             Destroy(other.gameObject);
-            // gcmenu.PlayCoin();
+            gcmenu.PlayCoin();
             totalpoints++;
             ValueText.text = totalpoints.ToString();
             AddPoints(1);
-            // Debug.Log("hello my name"+totalpoints);
         }
         else if (other.CompareTag("car"))
         {
@@ -168,33 +143,18 @@ public class GC : MonoBehaviour
             isGreen2 = 0;
             check2.SetActive(false);
             check1.SetActive(false);
-            // learningPoints.color = new Color(255, 0, 0, 255);
-            // learningPoints2.color = new Color(255, 0, 0, 255);
-
             imageToChangeColor.color = newColor;
             imageToChangeColor2.color = newColor;
-
             HealthManager.health = 0;
-            // gcmenu.PlayHurt();
+            gcmenu.PlayHurt();
             summaryText.text = "Be sure to lookout for moving vehicles";
             PlayerPrefs.SetString("distance", pm.distanceLeft.ToString("0"));
-            //StartCoroutine(RestartCurrentlevel());
         }
         else if (other.CompareTag("questPoint"))
         {
             isTouch = true;
-
-            // gcmenu.PlayFinish();
-
+            gcmenu.PlayFinish();
             summaryText.text = "You have completed the game!";
-            //addPoints = totalpoints + hm.GetPoints();
-            //ValueText.text = addPoints.ToString();
-            //PlayerPrefs.SetString("distance", pm.differenceY.ToString("0"));
-            //AddPoints(HealthManager.points);
-
-
-            
-
             if (check1.activeSelf)
             {
                 totalpoints += 10;
@@ -210,9 +170,6 @@ public class GC : MonoBehaviour
                 totalpoints += 10;
                 AddPoints(10);
             }
-
-
-
             if (HealthManager.health == 3)
             {
                 totalpoints += 15;
@@ -228,23 +185,14 @@ public class GC : MonoBehaviour
                 totalpoints += 5;
                 AddPoints(5);
             }
-
-
-
             Debug.Log("this is your health :" + HealthManager.health);
-
-            // Update the UI text
-
             ValueText.text = totalpoints.ToString();
-
-
-            //StartCoroutine(RestartCurrentlevel());
         }
         else if (other.CompareTag("gemTag"))
         {
             // Add points to the totalpoints variable
             Destroy(other.gameObject);
-            // gcmenu.PlayGem();
+            gcmenu.PlayGem();
             AddPoints(10);
             // Update the UI text
             totalpoints += 10;
@@ -267,10 +215,7 @@ public class GC : MonoBehaviour
                 summaryText.text = "Do not walk on the roads";
                 isGreen = 0;
                 check2.SetActive(false);
-
-                // learningPoints.color = new Color(255, 0, 0, 255);
                 imageToChangeColor.color = newColor;
-
                 // Stop tracking position to prevent further damage
                 isInDamageZone = false;
                 //StartCoroutine(RestartCurrentlevel());
@@ -287,12 +232,9 @@ public class GC : MonoBehaviour
             {
                 sf.Flash();
                 HealthManager.health--;
-                // gcmenu.PlayHurt();
+                gcmenu.PlayHurt();
                 isGreen = 0;
                 check1.SetActive(false);
-                summaryText.text = "Do not walk on cycling paths";
-
-                // learningPoints.color = new Color(255, 0, 0, 255);
                 imageToChangeColor.color = newColor;
 
                 _timeColliding = 0f;
@@ -300,7 +242,6 @@ public class GC : MonoBehaviour
             // Time is over theshold, player takes damag
             // Reset timer
             PlayerPrefs.SetString("distance", pm.distanceLeft.ToString("0"));
-            //StartCoroutine(RestartCurrentlevel());
         }
     }
 
@@ -349,20 +290,6 @@ public class GC : MonoBehaviour
         }
     }
 
-    // public void OpenPhone()
-    // {
-    //     if (Phone.transform.localPosition.y == 280)
-    //     {
-    //         isPhone = false;
-    //         Phone.transform.localPosition = new Vector3(pos.x, pos.y, 0);
-    //     } else if (Phone.transform.localPosition.y == pos.y)
-    //     {
-    //         isPhone = true;
-    //         Phone.transform.localPosition = new Vector3(pos.x, 280, 0);
-    //     }  
-    // }
-    
-
     public void OpenPhone()
     {
         if (Phone.anchoredPosition.y == 700f)
@@ -381,18 +308,16 @@ public class GC : MonoBehaviour
         }
     }
 
-    public void UpdatePointsDisplay()
+    /*public void UpdatePointsDisplay()
     {
         Debug.Log(points);
-    }
+    }*/
 
     public void AddPoints(int amount)
     {
         points += amount;
-
         PlayerPrefs.SetInt("Points", points);
         PlayerPrefs.Save();
-        UpdatePointsDisplay();
     }
 
     public void SetTotalPoints(int newValue)
